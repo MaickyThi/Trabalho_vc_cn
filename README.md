@@ -1,5 +1,10 @@
 # Projeto de Machine Learning — Medical Cost Personal Dataset
 
+## Informações Aluno
+Nome: Thiago Maicky Alves Martins
+
+RA: 4201028
+
 ## Sobre o Projeto
 
 Este é  um projeto desenvolvido como uma atividade acadêmica para a disciplina de Computação em Nuvem, o foco foi em conceitos de Machine Learning e pré-processamento de dados.
@@ -11,152 +16,117 @@ O dataset escolhido foi o **Medical Cost Personal Dataset**, disponível no Kagg
 ## Dataset Utilizado
 
 Dataset: **Medical Cost Personal Dataset**
+
 Fonte: Kaggle
+
 Link: https://www.kaggle.com/datasets/mirichoi0218/insurance
+
 Objetivo: Prever os custos médicos (`charges`) com base em características dos pacientes.
 
-### Variáveis do Dataset
 
-| Coluna   | Descrição                      |
-| -------- | ------------------------------ |
-| age      | Idade do paciente              |
-| sex      | Sexo                           |
-| bmi      | Índice de massa corporal       |
-| children | Quantidade de filhos           |
-| smoker   | Indica se o paciente é fumante |
-| region   | Região onde o paciente reside  |
-| charges  | Custos médicos cobrados        |
+## Objetivos do Projeto
 
----
+Realizar análise exploratória dos dados (EDA)
 
-# Etapas do Projeto
+Aplicar técnicas de limpeza e tratamento de dados
 
-Como foi apresentado em aula, mas especificamente retirei esse sequecia de etapas **ex-04-imb**, que seriam:
+Trabalhar com tratamento de outliers
 
-    1.Análise dos Dados (EDA)
-    2.Limpeza de Dados (coerção de TotalCharges + remoção de irrelevantes + imputação)
-    3.Tratamento de Outliers
-    4.Transformações Estatísticas (StandardScaler)
-    5.Encoding de Variáveis Categóricas (mapeamento binário + One-Hot Encoding)
-    6.Separação das Variáveis
-    7.Divisão entre Treino e Teste
+Aplicar transformações estatísticas
 
-Embora, como notado, ouveram modificações em que a etapa '6.Seleção de Features' apresentado no dataset que me baseei (**ex-04-imb**), foram serparadas em duas etapas diferentes neste dataset. Além de não apresentar a etapa '7.Split do Dataset e Balanceamento com SMOTE', que não foi aplicada pois nesse projeto se trata de um problema de regressão. Como a variável alvo (**charges**) possui valores contínuos, o foco do pré-processamento foi direcionado ao tratamento de outliers, transformações estatísticas e divisão adequada entre treino e teste.
+Utilizar pipelines de pré-processamento
 
-## 1. Análise Exploratória dos Dados (EDA)
+Transformar variáveis categóricas em numéricas
 
-Foi realizada uma análise inicial do dataset utilizando funções como:
+Separar os dados entre treino e teste
 
-```python
+Preparar os dados para Machine Learning
+
+Visualizar correlações entre as variáveis
+
+O dataset contém informações de pacientes e seus respectivos custos médicos.
+
+## Análise Exploratória (EDA)
+
+Foi realizada uma análise inicial do dataset utilizando:
+
 df.info()
+
 df.describe()
-df.hist()
-```
 
-Essa etapa nos permitiu visualizar:
+histogramas
 
-* Tipos das variáveis;
-* Distribuição dos dados;
-* Presença de valores extremos;
-* Estrutura geral do dataset.
+boxplots
 
----
+heatmaps de correlação
 
-## 2. Limpeza de Dados
+Essa etapa ajudou a compreender melhor a distribuição dos dados e possíveis padrões existentes.
 
-Foi realizada a remoção de registros duplicados utilizando:
+## Limpeza de Dados
 
-```python
-df = df.drop_duplicates()
-```
+Durante a limpeza:
 
-Também foi verificado se o dataset não possuía valores nulos.
+Registros duplicados foram removidos;
 
----
+Os tipos das colunas foram analisados;
 
-## 3. Tratamento de Outliers
+Foi feita a verificação de valores nulos.
 
-Os outliers foram identificados utilizando o método IQR (Interquartile Range).
+O dataset apresentou boa qualidade e não possuía valores ausentes.
 
-```python
-Q1 = df['charges'].quantile(0.25)
-Q3 = df['charges'].quantile(0.75)
-IQR = Q3 - Q1
-```
+## Tratamento de Outliers
 
-Após a identificação, foi criada uma nova versão do dataset sem os valores considerados extremos.
+Os outliers foram identificados utilizando o método:
 
----
+IQR (Interquartile Range)
 
-## 4. Transformações Estatísticas
+Também foram utilizados boxplots para visualizar os valores extremos da variável charges.
 
-Foi aplicada uma transformação logarítmica na variável `charges` para reduzir a assimetria dos dados.
+## Transformações Estatísticas
 
-```python
-df['charges_log'] = np.log1p(df['charges'])
-```
+Foi aplicado:
 
-Também foi utilizada a padronização dos dados com `StandardScaler`.
+Transformação logarítmica em charges;
 
-```python
-scaler = StandardScaler()
-```
+Normalização com StandardScaler;
 
----
+Análise gráfica após as transformações.
 
-## 5. Encoding de Variáveis Categóricas
+Essas técnicas ajudam a melhorar a distribuição dos dados e facilitar o treinamento do modelo.
 
-As variáveis categóricas foram convertidas em variáveis numéricas utilizando One-Hot Encoding.
+## Pré-processamento com Pipeline
 
-```python
-df = pd.get_dummies(df, columns=['sex', 'smoker', 'region'], drop_first=True)
-```
+Foi utilizado:
 
----
+Pipeline
 
-## 6. Separação das Variáveis
+ColumnTransformer
 
-O dataset foi dividido entre:
+OneHotEncoder
 
-* variáveis de entrada (`X`);
-* variável alvo (`y`).
+StandardScaler
 
-```python
-X = df.drop(columns=['charges'])
-y = df['charges']
-```
+Essa abordagem automatiza o pré-processamento dos dados e evita problemas como data leakage.
 
----
+# Split do Dataset
 
-## 7. Divisão entre Treino e Teste
+Os dados foram separados em: 80% para treinamento e os 20% restantes para teste
 
-Os dados foram separados em conjuntos de treino e teste.
+Utilizando:
 
-```python
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42
-)
-```
+train_test_split()
 
----
+## Análise de Correlação
 
-## Tecnologias Utilizadas
+Ao final do pré-processamento, foi gerada uma matriz de correlação para analisar a relação entre as variáveis e o target (charges).
 
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* Scikit-learn
-* Jupyter Notebook
-* Git/GitHub
+Foi possível perceber que variáveis como:
 
----
+smoker
 
-## Objetivo Final
+age
 
-O objetivo do projeto/atividade academica é aplicar técnicas de análise e preparação de dados para treinamento de modelos de Machine Learning capazes de prever custos médicos com base nas características dos pacientes.
+bmi
 
+possuem impacto relevante nos custos médicos.
 
