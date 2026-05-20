@@ -130,3 +130,7 @@ bmi
 
 possuem impacto relevante nos custos médicos.
 
+## Objetivo Final
+
+O objetivo do projeto é aplicar técnicas de análise e preparação de dados para treinamento de modelos de Machine Learning capazes de prever custos médicos com base nas características dos pacientes.
+
